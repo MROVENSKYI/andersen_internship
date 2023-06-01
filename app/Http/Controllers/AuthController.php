@@ -9,15 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 
 
-
-
 class AuthController extends Controller
 {
-
-
+    
    public function register(RegisterRequest $request)  { 
     $validator= Validator::make($request->all(),[
-        'name' => 'required|min:3',
         'email' => 'required|email',
         'password' => 'required|min:6|max:100',
         'confirm_password' => 'required|same:password'
@@ -28,15 +24,16 @@ class AuthController extends Controller
         ],422);
     }
     $user = User::create([
-        'name' => $request->name,
         'email' => $request->email,
         'password' => $request->password,]);
+
     $token = $user->createToken('API Token')->accessToken;
 
      return response()->json([
         'token' => $token
     ],201);
-   
+
+    
         
     }
 
