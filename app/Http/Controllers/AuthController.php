@@ -11,16 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    
-   public function register(RegisterRequest $request)  { 
 
-    $user = User::create($request->validated());
+    public function register(RegisterRequest $request)
+    {
 
-    $token = $user->createToken('API Token')->accessToken;
+        $user = User::create($request->validated());
 
-    return response()->json(['token' => $token], Response::HTTP_CREATED);
-        
+        $token = $user->createToken('API Token')->accessToken;
+
+        return response()->json(['token' => $token], Response::HTTP_CREATED);
     }
 
 }
-   

@@ -18,13 +18,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'email','message','password',
+        'email',
+        'message',
+        'password',
     ];
 
     public function setPasswordAttribute($value)
-{
-	$this->attributes['password'] = Hash::make($value);
-}
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
