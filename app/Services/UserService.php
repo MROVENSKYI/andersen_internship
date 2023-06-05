@@ -10,9 +10,10 @@ class UserService
 
     public function store(array $data)
     {
-
+        
         $user = User::create($data);
 
         return $user;
     }
+
 }
