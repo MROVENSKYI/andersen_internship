@@ -7,13 +7,8 @@ use App\Models\User;
 
 class UserService
 {
-
-    public function store(array $data)
+    public function store(array $data): User
     {
-        
-        $user = User::create($data);
-
-        return $user;
+        return User::create($data);
     }
-
 }
