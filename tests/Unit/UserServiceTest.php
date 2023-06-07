@@ -13,15 +13,15 @@ class UserServiceTest extends TestCase
 {
     use DatabaseMigrations;
     /** @test */
-    // public function it_should_store_user()
-    // {
-    //     $userService = new UserService();
-    //     $userData = User::factory()->make();
-    //     $createdUser = $userService->store($userData->getAttributes());
+    public function it_should_store_user()
+    {
+        $userService = new UserService();
+        $userData = User::factory()->make();
+        $createdUser = $userService->store($userData->getAttributes());
 
-    //     $this->assertInstanceOf(User::class,$createdUser);
-    //     $this->assertDatabaseHas('users',[
-    //         'email' => $userData->email
-    //     ]); 
-    // }
+        $this->assertInstanceOf(User::class,$createdUser);
+        $this->assertDatabaseHas('users',[
+            'email' => $userData->email
+        ]); 
+    }
 }
