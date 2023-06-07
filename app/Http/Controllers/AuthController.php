@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Services\UserService;
 
@@ -17,11 +18,19 @@ class AuthController extends Controller
     }
     public function register(RegisterRequest $request)
     {
-        $user = $this->userService->store($request->validated());
+        $userRegister = $this->userService->store($request->validated());
 
-        $token = $user->createToken('API Token')->accessToken;
+        $token = $userRegister->createToken('API Token')->accessToken;
 
         return response()->json(['token' => $token], Response::HTTP_CREATED);
+    }
+    public function login(LoginRequest $request)
+    {
+        $userLogin = $this->userService->login($request->validated());
+
+        $token = $userLogin->createToken('API Token')->accessToken;
+
+        return response()->json(['token' => $token], Response::HTTP_OK);
     }
 
 }
