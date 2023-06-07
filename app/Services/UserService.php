@@ -16,8 +16,8 @@ class UserService
     public function login(array $loginData)
     {
         Auth::attempt($loginData);
-        
-        return  Auth::user();
+
+        return Auth::user();
     }
-    
+
 }

@@ -18,17 +18,17 @@ class AuthController extends Controller
     }
     public function register(RegisterRequest $request)
     {
-        $userRegister = $this->userService->store($request->validated());
+        $user = $this->userService->store($request->validated());
 
-        $token = $userRegister->createToken('API Token')->accessToken;
+        $token = $user->createToken('API Token')->accessToken;
 
         return response()->json(['token' => $token], Response::HTTP_CREATED);
     }
     public function login(LoginRequest $request)
     {
-        $userLogin = $this->userService->login($request->validated());
+        $user = $this->userService->login($request->validated());
 
-        $token = $userLogin->createToken('API Token')->accessToken;
+        $token = $user->createToken('API Token')->accessToken;
 
         return response()->json(['token' => $token], Response::HTTP_OK);
     }

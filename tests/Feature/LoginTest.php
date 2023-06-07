@@ -16,7 +16,7 @@ class LoginTest extends TestCase
     use RefreshDatabase;
     /** @test */
     public function it_should_login_user()
-    {   
+    {
         $clientRepository = new ClientRepository();
         $clientRepository->createPersonalAccessClient(
             null,
@@ -27,4 +27,4 @@ class LoginTest extends TestCase
         $response = $this->actingAs($user)->json('POST', route('auth.login'), $user->getAttributes())->assertStatus(200);
         $response->assertJsonStructure(['token']);
     }
-} 
+}

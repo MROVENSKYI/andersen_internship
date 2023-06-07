@@ -19,9 +19,9 @@ class UserServiceTest extends TestCase
         $userData = User::factory()->make();
         $createdUser = $userService->store($userData->getAttributes());
 
-        $this->assertInstanceOf(User::class,$createdUser);
-        $this->assertDatabaseHas('users',[
+        $this->assertInstanceOf(User::class, $createdUser);
+        $this->assertDatabaseHas('users', [
             'email' => $userData->email
-        ]); 
+        ]);
     }
 }

@@ -15,7 +15,7 @@ class RegisterTest extends TestCase
     use RefreshDatabase;
     /** @test */
     public function it_should_register_user()
-    {   
+    {
         $clientRepository = new ClientRepository();
         $clientRepository->createPersonalAccessClient(
             null,
@@ -23,15 +23,15 @@ class RegisterTest extends TestCase
             'http://example.com/callback'
         );
         $userData = User::factory()->make();
-        $params = $userData->getAttributes() + ['password_confirmation'=>$userData->getAttribute('password')];
-        $response = $this->json('POST', route('auth.register'),$params)->assertStatus(201);
+        $params = $userData->getAttributes() + ['password_confirmation' => $userData->getAttribute('password')];
+        $response = $this->json('POST', route('auth.register'), $params)->assertStatus(201);
         $response->assertJsonStructure(['token']);
     }
-    
+
     /** @test */
     public function it_should_throw_validation_exception()
-    {   
+    {
         $response = $this->json('POST', route('auth.register'))->assertStatus(422);
-        $response->assertJsonStructure(['message','errors']);
+        $response->assertJsonStructure(['message', 'errors']);
     }
 }
