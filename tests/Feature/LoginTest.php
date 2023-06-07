@@ -9,12 +9,13 @@ use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
 
 
-class RegisterTest extends TestCase
+
+class LoginTest extends TestCase
 {
     use DatabaseMigrations;
     use RefreshDatabase;
     /** @test */
-    public function it_should_register_user()
+    public function it_should_login_user()
     {
         $clientRepository = new ClientRepository();
         $clientRepository->createPersonalAccessClient(
@@ -22,16 +23,8 @@ class RegisterTest extends TestCase
             'Personal Access Client',
             'http://example.com/callback'
         );
-        $userData = User::factory()->make();
-        $params = $userData->getAttributes() + ['password_confirmation' => $userData->getAttribute('password')];
-        $response = $this->json('POST', route('auth.register'), $params)->assertStatus(201);
+        $user = User::factory()->make();
+        $response = $this->actingAs($user)->json('POST', route('auth.login'), $user->getAttributes())->assertStatus(200);
         $response->assertJsonStructure(['token']);
-    }
-
-    /** @test */
-    public function it_should_throw_validation_exception()
-    {
-        $response = $this->json('POST', route('auth.register'))->assertStatus(422);
-        $response->assertJsonStructure(['message', 'errors']);
     }
 }
