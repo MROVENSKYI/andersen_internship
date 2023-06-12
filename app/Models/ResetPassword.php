@@ -46,4 +46,6 @@ class ResetPassword extends Model
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
 }
