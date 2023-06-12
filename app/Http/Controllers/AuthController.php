@@ -36,15 +36,11 @@ class AuthController extends Controller
     }
     public function sendResetLink(ResetLinkRequest $request)
     {
-
         return $this->userService->sendResetLink($request->only('email'));
-
     }
     public function resetPassword(ResetPasswordRequest $request)
     {
-
-        return $this->userService->resetPassword($request->only('email', 'password', 'password_confirmation', 'token'));
-
+        return $this->userService->resetPassword($request->validated());
     }
 
 }

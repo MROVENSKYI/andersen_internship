@@ -38,6 +38,7 @@ class UserService
             ? response()->json(['status' => ($status)])
             : response()->json(['token' => ($status)]);
     }
+
     public function resetPassword(array $data)
     {
         $status = Password::reset(

@@ -24,7 +24,7 @@ class ResetPassword extends Model
     ];
     public function setPasswordAttribute($value)
     {
-        // $this->attributes['password'] = Hash::make($value);
+        $this->attributes['password'] = Hash::make($value);
     }
 
     /**
@@ -33,8 +33,8 @@ class ResetPassword extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        // 'password',
-        // 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -43,7 +43,7 @@ class ResetPassword extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        // 'email_verified_at' => 'datetime',
-        // 'password' => 'hashed',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 }
