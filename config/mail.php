@@ -52,16 +52,14 @@ return [
 
         'mailgun' => [
             'transport' => 'mailgun',
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
+            'client' => [
+                'timeout' => 5,
+            ],
         ],
 
         'postmark' => [
             'transport' => 'postmark',
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
+            'message_stream_id' => env('POSTMARK_MESSAGE_STREAM_ID'),
         ],
 
         'sendmail' => [
@@ -83,6 +81,9 @@ return [
             'mailers' => [
                 'smtp',
                 'log',
+                'postmark',
+                'mailgun',
+                'sendmail',
             ],
         ],
     ],
