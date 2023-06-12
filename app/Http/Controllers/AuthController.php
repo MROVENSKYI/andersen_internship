@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ResetLinkRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Services\UserService;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class AuthController extends Controller
@@ -31,6 +33,18 @@ class AuthController extends Controller
         $token = $user->createToken('API Token')->accessToken;
 
         return response()->json(['token' => $token], Response::HTTP_OK);
+    }
+    public function sendResetLink(ResetLinkRequest $request)
+    {
+
+        return $this->userService->sendResetLink($request->only('email'));
+
+    }
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+
+        return $this->userService->resetPassword($request->only('email', 'password', 'password_confirmation', 'token'));
+
     }
 
 }

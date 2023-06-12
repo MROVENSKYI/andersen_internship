@@ -8,13 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
 
-
-class LoginTest extends TestCase
+class ResetLinkTest extends TestCase
 {
     use DatabaseMigrations;
     use RefreshDatabase;
     /** @test */
-    public function it_should_login_user()
+    public function it_should_deliver_reset_password_link()
     {
         $clientRepository = new ClientRepository();
         $clientRepository->createPersonalAccessClient(
@@ -22,9 +21,8 @@ class LoginTest extends TestCase
             'Personal Access Client',
             'http://example.com/callback'
         );
-        $password = fake()->password;
-        $user = User::factory()->create(['password' => $password]);
-        $response = $this->json('POST', route('auth.login'), ['email' => $user->email, 'password' => $password])->assertStatus(200);
+        $userData = User::factory()->make();
+        $response = $this->json('POST', route('password.link'), $userData->getAttributes())->assertStatus(200);
         $response->assertJsonStructure(['token']);
     }
 
@@ -34,4 +32,5 @@ class LoginTest extends TestCase
         $response = $this->json('POST', route('password.link'))->assertStatus(422);
         $response->assertJsonStructure(['message', 'errors']);
     }
+
 }

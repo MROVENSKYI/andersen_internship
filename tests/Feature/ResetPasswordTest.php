@@ -2,19 +2,21 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\ResetPassword;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
 
 
-class LoginTest extends TestCase
+class ResetPasswordTest extends TestCase
 {
     use DatabaseMigrations;
     use RefreshDatabase;
+
+
     /** @test */
-    public function it_should_login_user()
+    public function it_should_reset_password_and_generate_new_password()
     {
         $clientRepository = new ClientRepository();
         $clientRepository->createPersonalAccessClient(
@@ -23,15 +25,17 @@ class LoginTest extends TestCase
             'http://example.com/callback'
         );
         $password = fake()->password;
-        $user = User::factory()->create(['password' => $password]);
-        $response = $this->json('POST', route('auth.login'), ['email' => $user->email, 'password' => $password])->assertStatus(200);
-        $response->assertJsonStructure(['token']);
+        $user = ResetPassword::factory()->make(['email' => 'markrovensky@gmail.com']);
+        $params = $user->getAttributes() + ['password' => $password] + ['password_confirmation' => $password];
+        $response = $this->json('POST', route('password.reset'), $params)->assertStatus(200);
+        $response->assertJsonStructure();
     }
 
     /** @test */
     public function it_should_throw_validation_exception()
     {
-        $response = $this->json('POST', route('password.link'))->assertStatus(422);
+        $response = $this->json('POST', route('password.reset'))->assertStatus(422);
         $response->assertJsonStructure(['message', 'errors']);
     }
+
 }
