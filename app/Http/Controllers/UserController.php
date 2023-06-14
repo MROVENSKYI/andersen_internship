@@ -26,6 +26,5 @@ class UserController extends Controller
         //dd($user->id);
         $this->userService->updateUser($request->validated(), $user);
         return response()->json(['message' => 'Updated!']);
-
     }
 }

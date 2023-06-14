@@ -38,10 +38,9 @@ class UpdateUserTest extends TestCase
             'Personal Access Client',
             'http://example.com/callback'
         );
+        $otherUser = User::factory()->create();
         $user = User::factory()->create(['email' => 'markrovensky@gmail.com']);
-        $user = User::factory()->create();
-
-        $response = $this->json('PUT', route('update.user', $user->getAttribute('id')), [
+        $response = $this->actingAs($otherUser)->json('PUT', route('update.user', $user->getAttribute('id')), [
             'email' => 'newemail@example.com'
         ])->assertStatus(401);
         $response->assertStatus(401);
