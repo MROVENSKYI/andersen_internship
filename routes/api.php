@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 Route::middleware('auth:api')->group(function () {
     Route::put('/users/{user}', [UserController::class, 'update'])->name('update.user');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('user.show');
 });
+
+Route::get('/users', [UserController::class, 'showList'])->name('users.list');
 
 Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.link');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('guest')->name('password.reset');

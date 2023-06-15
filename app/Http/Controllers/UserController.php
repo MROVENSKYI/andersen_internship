@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserListRequest;
+use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
 
@@ -24,5 +27,15 @@ class UserController extends Controller
     {
         $this->userService->updateUser($request->validated(), $user);
         return response()->json(['message' => 'Updated!']);
+    }
+
+    public function showList(UserListRequest $request)
+    {
+        return $this->userService->showList();
+    }
+
+    public function show(UserRequest $request, User $user)
+    {
+        return response()->json(new UserResource($user));
     }
 }

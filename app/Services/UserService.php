@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
-
-
-
 class UserService
 {
     use CanResetPassword;
@@ -35,17 +32,16 @@ class UserService
         );
 
         return $status === Password::RESET_LINK_SENT
-            ? response()->json(['status' => __($status)])
-            : response()->json(['email' => __($status)]);
+        ? response()->json(['status' => __($status)])
+        : response()->json(['email' => __($status)]);
     }
 
     public function resetPassword(array $data)
     {
         $status = Password::reset(
-            $data,
             function (User $user, string $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => Hash::make($password),
                 ])->setRememberToken(Str::random(60));
 
                 $user->save();
@@ -55,12 +51,18 @@ class UserService
         );
 
         return $status === Password::PASSWORD_RESET
-            ? response()->json(['status' => __($status)])
-            : response()->json(['token' => [__($status)]]);
+        ? response()->json(['status' => __($status)])
+        : response()->json(['token' => [__($status)]]);
     }
 
     public function updateUser($data, $user)
     {
         return $user->update($data);
+    }
+
+    public function showList()
+    {
+        $collection = User::all();
+        return $collection->pluck('email')->toArray();
     }
 }
