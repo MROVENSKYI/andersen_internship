@@ -39,6 +39,7 @@ class UserService
     public function resetPassword(array $data)
     {
         $status = Password::reset(
+            $data,
             function (User $user, string $password) {
                 $user->forceFill([
                     'password' => Hash::make($password),
