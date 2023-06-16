@@ -32,8 +32,8 @@ class UserService
         );
 
         return $status === Password::RESET_LINK_SENT
-        ? response()->json(['status' => __($status)])
-        : response()->json(['email' => __($status)]);
+        ? response()->json(['status' => ($status)])
+        : response()->json(['email' => ($email)]);
     }
 
     public function resetPassword(array $data)
@@ -52,8 +52,8 @@ class UserService
         );
 
         return $status === Password::PASSWORD_RESET
-        ? response()->json(['status' => __($status)])
-        : response()->json(['token' => [__($status)]]);
+        ? response()->json(['status' => ($status)])
+        : response()->json(['token' => [($token)]]);
     }
 
     public function updateUser($data, $user)
