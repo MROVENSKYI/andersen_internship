@@ -25,7 +25,7 @@ class UpdateUserTest extends TestCase
         $payload = [
             'email' => 'newemail@example.com',
         ];
-        $response = $this->json('PUT', route('update.user', $user->getAttribute('id')), $payload, $headers)->assertStatus(200);
+        $response = $this->json('PUT', route('user.update', $user->getAttribute('id')), $payload, $headers)->assertStatus(200);
         $response->assertStatus(200);
     }
 
@@ -40,7 +40,7 @@ class UpdateUserTest extends TestCase
         );
         $otherUser = User::factory()->create();
         $user = User::factory()->create(['email' => 'markrovensky@gmail.com']);
-        $response = $this->actingAs($otherUser)->json('PUT', route('update.user', $user->getAttribute('id')), [
+        $response = $this->actingAs($otherUser)->json('PUT', route('user.update', $user->getAttribute('id')), [
             'email' => 'newemail@example.com'
         ])->assertStatus(401);
         $response->assertStatus(401);

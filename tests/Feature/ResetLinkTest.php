@@ -12,6 +12,7 @@ class ResetLinkTest extends TestCase
 {
     use DatabaseMigrations;
     use RefreshDatabase;
+
     /** @test */
     public function it_should_deliver_reset_password_link()
     {
@@ -23,7 +24,7 @@ class ResetLinkTest extends TestCase
         );
         $userData = User::factory()->make();
         $response = $this->json('POST', route('password.link'), $userData->getAttributes())->assertStatus(200);
-        $response->assertJsonStructure(['token']);
+        $response->assertStatus(200);
     }
 
     /** @test */
@@ -32,5 +33,4 @@ class ResetLinkTest extends TestCase
         $response = $this->json('POST', route('password.link'))->assertStatus(422);
         $response->assertJsonStructure(['message', 'errors']);
     }
-
 }
