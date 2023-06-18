@@ -10,7 +10,6 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Services\UserService;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class AuthController extends Controller
 {
     protected $userService;

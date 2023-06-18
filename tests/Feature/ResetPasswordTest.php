@@ -6,17 +6,14 @@ use App\Models\ResetPassword;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
-
 
 class ResetPasswordTest extends TestCase
 {
     use DatabaseMigrations;
     use RefreshDatabase;
-
 
     /** @test */
     public function it_should_reset_password_and_generate_new_password()
@@ -41,5 +38,4 @@ class ResetPasswordTest extends TestCase
         $response = $this->json('POST', route('password.reset'))->assertStatus(422);
         $response->assertJsonStructure(['message', 'errors']);
     }
-
 }
