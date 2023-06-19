@@ -2,23 +2,28 @@
 
 namespace App\Services;
 
+use App\Mail\DeleteUserMail;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class UserService
 {
     use CanResetPassword;
+
     public function store(array $registerData): User
     {
         return User::create($registerData);
     }
 
-    public function login(array $loginData)
+    public function login(array $loginData):  ? \Illuminate\Contracts\Auth\Authenticatable
     {
         Auth::attempt($loginData);
 
@@ -36,7 +41,7 @@ class UserService
         : response()->json(['email' => ($status)]);
     }
 
-    public function resetPassword(array $data)
+    public function resetPassword(array $data) : JsonResponse
     {
         $status = Password::reset(
             $data,
@@ -61,9 +66,17 @@ class UserService
         return $user->update($data);
     }
 
-    public function showList()
+    public function showList(): array
     {
         $collection = User::all();
         return $collection->pluck('email')->toArray();
+    }
+
+    public function destroyUser($user):  ? SentMessage
+    {
+        $user->status = User::INACTIVE;
+        $user->save();
+
+        return Mail::to(['email' => $user->email])->send(new DeleteUserMail($user));
     }
 }

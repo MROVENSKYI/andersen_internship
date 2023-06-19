@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserListRequest;
 use App\Http\Requests\UserRequest;
@@ -37,5 +38,11 @@ class UserController extends Controller
     public function show(UserRequest $request, User $user)
     {
         return response()->json(new UserResource($user));
+    }
+
+    public function destroy(DeleteUserRequest $request, User $user)
+    {
+        $this->userService->destroyUser($user);
+        return response()->json(['message' => 'Account deleted']);
     }
 }
